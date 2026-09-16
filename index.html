@@ -3,11 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Opciones de Pago</title>
+  <title>Un Toque - Opciones de Pago</title>
   <style>
+    * { box-sizing: border-box; }
     body {
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-      background-color: #f4f6f9;
+      background-color: #0f172a;
+      color: #f8fafc;
       display: flex;
       justify-content: center;
       align-items: center;
@@ -16,53 +18,123 @@
       padding: 20px;
     }
     .card {
-      background: #ffffff;
-      padding: 25px;
-      border-radius: 16px;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.08);
-      max-width: 400px;
+      background: #1e293b;
+      padding: 28px 20px;
+      border-radius: 20px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+      max-width: 380px;
       width: 100%;
       text-align: center;
+      border: 1px solid #334155;
     }
-    h2 { margin-bottom: 20px; color: #333; }
+    .brand {
+      font-size: 24px;
+      font-weight: 800;
+      color: #38bdf8;
+      margin-bottom: 4px;
+    }
+    .subtitle {
+      font-size: 13px;
+      color: #94a3b8;
+      margin-bottom: 20px;
+    }
+    .section-title {
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #64748b;
+      margin: 16px 0 10px 0;
+      font-weight: 700;
+    }
     .btn {
-      display: block;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       width: 100%;
-      padding: 14px 0;
-      margin-bottom: 12px;
-      border-radius: 10px;
-      font-size: 16px;
-      font-weight: bold;
+      padding: 14px;
+      margin-bottom: 10px;
+      border-radius: 12px;
+      font-size: 15px;
+      font-weight: 700;
       text-decoration: none;
       border: none;
       cursor: pointer;
-      box-sizing: border-box;
+      transition: transform 0.1s ease;
     }
-    .btn-bdv { background-color: #005bb5; color: white; }
-    .btn-mercantil { background-color: #003366; color: white; }
+    .btn:active { transform: scale(0.98); }
+    .btn-bdv {
+      background-color: #0284c7;
+      color: #ffffff;
+    }
+    .btn-copy {
+      background-color: #334155;
+      color: #f8fafc;
+      border: 1px solid #475569;
+    }
+    .bank-info {
+      font-size: 12px;
+      color: #cbd5e1;
+      margin-bottom: 8px;
+    }
+    .toast {
+      visibility: hidden;
+      min-width: 220px;
+      background-color: #22c55e;
+      color: #fff;
+      text-align: center;
+      border-radius: 8px;
+      padding: 12px;
+      position: fixed;
+      z-index: 10;
+      bottom: 30px;
+      font-weight: 600;
+      font-size: 14px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    }
+    .toast.show {
+      visibility: visible;
+      animation: fadein 0.3s, fadeout 0.3s 2s;
+    }
+    @keyframes fadein { from { bottom: 0; opacity: 0; } to { bottom: 30px; opacity: 1; } }
+    @keyframes fadeout { from { bottom: 30px; opacity: 1; } to { bottom: 0; opacity: 0; } }
   </style>
 </head>
 <body>
 
   <div class="card">
-    <h2>Selecciona tu Método de Pago</h2>
-    
-    <!-- Botón directo para Banco de Venezuela -->
-    <a class="btn btn-bdv" href="https://bdvdigital.banvenez.com/pagomovil?id=V13581169&phone=584241206888&bank=0134&description=9dxBliWt4XnVSB0LTqNasQ%3D%3D&amount=1">
+    <div class="brand">Un Toque</div>
+    <div class="subtitle">Selecciona tu método de pago</div>
+
+    <!-- PAGO DIRECTO BDV -->
+    <a class="btn btn-bdv" href="https://bdvdigital.banvenez.com/pagomovil?id=V30911172&phone=584126732004&bank=0105&description=9dxBliWt4XnVSB0LTqNasQ%3D%3D&amount=1">
       Pagar con Banco de Venezuela
     </a>
 
-    <!-- Botón para copiar datos de Mercantil -->
-    <button class="btn btn-mercantil" onclick="copiarMercantil()">
-      Copiar datos Mercantil
+    <div class="section-title">Otros Bancos / Mercantil</div>
+    <div class="bank-info">Banco: <b>0105 - Mercantil</b></div>
+
+    <!-- BOTÓN COPIAR CÉDULA -->
+    <button class="btn btn-copy" onclick="copiarDato('V30911172', 'Cédula copiada')">
+      Copiar Cédula (V-30.911.172)
+    </button>
+
+    <!-- BOTÓN COPIAR TELÉFONO -->
+    <button class="btn btn-copy" onclick="copiarDato('04126732004', 'Teléfono copiado')">
+      Copiar Teléfono (0412-673.20.04)
     </button>
   </div>
 
+  <div id="toast" class="toast">¡Copiado!</div>
+
   <script>
-    function copiarMercantil() {
-      const datos = "Banco: 0105 - Mercantil\nCédula: V-30.911.172\nTeléfono: 04126732004";
-      navigator.clipboard.writeText(datos).then(() => {
-        alert("¡Datos de Mercantil copiados al portapapeles!");
+    function copiarDato(texto, mensaje) {
+      navigator.clipboard.writeText(texto).then(() => {
+        const toast = document.getElementById("toast");
+        toast.innerText = mensaje;
+        toast.className = "toast show";
+        setTimeout(() => { 
+          toast.className = toast.className.replace("toast show", "toast"); 
+        }, 2000);
       });
     }
   </script>
