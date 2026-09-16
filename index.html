@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Opciones de Pago</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background-color: #f4f6f9;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+      padding: 20px;
+    }
+    .card {
+      background: #ffffff;
+      padding: 25px;
+      border-radius: 16px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+      max-width: 400px;
+      width: 100%;
+      text-align: center;
+    }
+    h2 { margin-bottom: 20px; color: #333; }
+    .btn {
+      display: block;
+      width: 100%;
+      padding: 14px 0;
+      margin-bottom: 12px;
+      border-radius: 10px;
+      font-size: 16px;
+      font-weight: bold;
+      text-decoration: none;
+      border: none;
+      cursor: pointer;
+      box-sizing: border-box;
+    }
+    .btn-bdv { background-color: #005bb5; color: white; }
+    .btn-mercantil { background-color: #003366; color: white; }
+  </style>
+</head>
+<body>
+
+  <div class="card">
+    <h2>Selecciona tu Método de Pago</h2>
+    
+    <!-- Botón directo para Banco de Venezuela -->
+    <a class="btn btn-bdv" href="https://bdvdigital.banvenez.com/pagomovil?id=V13581169&phone=584241206888&bank=0134&description=9dxBliWt4XnVSB0LTqNasQ%3D%3D&amount=1">
+      Pagar con Banco de Venezuela
+    </a>
+
+    <!-- Botón para copiar datos de Mercantil -->
+    <button class="btn btn-mercantil" onclick="copiarMercantil()">
+      Copiar datos Mercantil
+    </button>
+  </div>
+
+  <script>
+    function copiarMercantil() {
+      const datos = "Banco: 0105 - Mercantil\nCédula: V-30.911.172\nTeléfono: 04126732004";
+      navigator.clipboard.writeText(datos).then(() => {
+        alert("¡Datos de Mercantil copiados al portapapeles!");
+      });
+    }
+  </script>
+
+</body>
+</html>
